@@ -9,7 +9,7 @@ export default function NewJokeRoute() {
         </div>
         <div>
           <label htmlFor="content">Content:</label>
-          <textarea name="content" id="" cols="30" rows="10"></textarea>
+          <textarea name="content" id="" cols={30} rows={10}></textarea>
         </div>
         <div>
           <button type="submit" className="button">
