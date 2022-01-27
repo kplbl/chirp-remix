@@ -1,5 +1,4 @@
-import { LiveReload } from "remix";
-import { Outlet } from "remix";
+import { LiveReload, Outlet } from "remix";
 
 export default function App() {
   return (
