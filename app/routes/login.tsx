@@ -2,6 +2,7 @@ import type { LinksFunction, ActionFunction } from "remix";
 import { Link, useSearchParams, json, useActionData } from "remix";
 import stylesUrl from "../styles/login.css";
 import { db } from "~/utils/db.server";
+import { createUserSession, login } from "~/utils/session.server";
 
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
@@ -61,10 +62,13 @@ export const action: ActionFunction = async ({ request }) => {
 
   switch (loginType) {
     case "login": {
-      // login to get the user
-      // if there is no user, return the fields and a formError
+      const user = await login({ username, password });
+
+      if (!user) {
+        return { fields, formError: "Not implemented" };
+      }
+      return createUserSession(user.id, redirectTo);
       // if there is a user, create their session and redirect to /jokes
-      return badRequest({ fields, formError: "Not implemented" });
     }
     case "register": {
       const userExists = await db.user.findFirst({ where: { username } });
