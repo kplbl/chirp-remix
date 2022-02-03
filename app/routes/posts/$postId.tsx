@@ -8,18 +8,18 @@ import {
   Form,
 } from "remix";
 import { requireUserId, getUserId } from "~/utils/session.server";
-import type { Joke } from "@prisma/client";
+import type { Post } from "@prisma/client";
 import { db } from "~/utils/db.server";
 
-type LoaderData = { joke: Joke; isOwner: boolean };
+type LoaderData = { post: Post; isOwner: boolean };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const userId = await getUserId(request);
-  const joke = await db.joke.findUnique({
-    where: { id: params.jokeId },
+  const post = await db.post.findUnique({
+    where: { id: params.postId },
   });
-  if (!joke) throw new Response("Joke not found", { status: 404 });
-  const data: LoaderData = { joke, isOwner: userId === joke.jokesterId };
+  if (!post) throw new Response("Post not found", { status: 404 });
+  const data: LoaderData = { post, isOwner: userId === post.posterId };
   return data;
 };
 
@@ -27,29 +27,29 @@ export const action: ActionFunction = async ({ request, params }) => {
   const form = await request.formData();
   if (form.get("_method") === "delete") {
     const userId = await requireUserId(request);
-    const joke = await db.joke.findUnique({
-      where: { id: params.jokeId },
+    const post = await db.post.findUnique({
+      where: { id: params.postId },
     });
-    if (!joke) {
+    if (!post) {
       throw new Response("Can't delete what does not exist", { status: 404 });
     }
-    if (joke.jokesterId !== userId) {
-      throw new Response("Pssh, nice try. That's not your joke.", {
+    if (post.posterId !== userId) {
+      throw new Response("Not your post", {
         status: 401,
       });
     }
-    await db.joke.delete({ where: { id: params.jokeId } });
+    await db.post.delete({ where: { id: params.postId } });
   }
 };
 
-export default function JokeRoute() {
+export default function PostRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
     <div>
-      <p>Here is a joke:</p>
-      <p>{data.joke.content}</p>
-      <Link to=".">{data.joke.name} Permalink</Link>
+      <p>Here is a post:</p>
+      <p>{data.post.content}</p>
+      <Link to=".">{data.post.name} Permalink</Link>
       {data.isOwner ? (
         <Form method="post">
           <input type="hidden" name="_method" value="delete" />
@@ -69,14 +69,14 @@ export function CatchBoundary() {
     case 404: {
       return (
         <div className="error-container">
-          Huh? What the heck is {params.jokeId}?
+          Huh? What the heck is {params.postId}?
         </div>
       );
     }
     case 401: {
       return (
         <div className="error-container">
-          Sorry, but {params.jokeId} is not your joke.
+          Sorry, but {params.postId} is not your post.
         </div>
       );
     }
@@ -87,8 +87,8 @@ export function CatchBoundary() {
 }
 
 export function ErrorBoundary() {
-  const { jokeId } = useParams();
+  const { postId } = useParams();
   return (
-    <div className="error-container">{`There was an error loading joke by the id ${jokeId}. Sorry.`}</div>
+    <div className="error-container">{`There was an error loading joke by the id ${postId}. Sorry.`}</div>
   );
 }

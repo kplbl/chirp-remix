@@ -21,7 +21,7 @@ export const links: LinksFunction = () => {
 };
 function Document({
   children,
-  title = `Remix: So great, it's funny!`,
+  title = `Ze blog`,
 }: {
   children: React.ReactNode;
   title?: string;

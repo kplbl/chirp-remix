@@ -12,15 +12,15 @@ export const loader: LoaderFunction = async ({ request }) => {
   return {};
 };
 
-function validateJokeContent(content: string) {
+function validatePostContent(content: string) {
   if (content.length < 10) {
-    return `That joke is too short`;
+    return `That post is too short`;
   }
 }
 
-function validateJokeName(name: string) {
+function validatePostName(name: string) {
   if (name.length < 2) {
-    return `That joke's name is too short`;
+    return `That posts's name is too short`;
   }
 }
 
@@ -50,8 +50,8 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const fieldErrors = {
-    name: validateJokeName(name),
-    content: validateJokeContent(content),
+    name: validatePostName(name),
+    content: validatePostContent(content),
   };
 
   const fields = { name, content };
@@ -60,18 +60,18 @@ export const action: ActionFunction = async ({ request }) => {
     return badRequest({ fieldErrors, fields });
   }
 
-  const joke = await db.joke.create({
-    data: { ...fields, jokesterId: userId },
+  const post = await db.post.create({
+    data: { ...fields, posterId: userId },
   });
-  return redirect(`/jokes/${joke.id}`);
+  return redirect(`/posts/${post.id}`);
 };
 
-export default function NewJokeRoute() {
+export default function NewPostRoute() {
   const actionData = useActionData<ActionData>();
 
   return (
     <div>
-      <p>add your own joke</p>
+      <p>add your own post</p>
       <Form method="post">
         <div>
           <label htmlFor="name">
@@ -131,7 +131,7 @@ export function CatchBoundary() {
   if (caught.status === 401) {
     return (
       <div className="error-container">
-        <p>You must be logged in to create a joke.</p>
+        <p>You must be logged in to create a post.</p>
         <Link to="/login">Login</Link>
       </div>
     );

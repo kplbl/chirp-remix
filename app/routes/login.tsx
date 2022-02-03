@@ -204,7 +204,7 @@ export default function Login() {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/jokes">Jokes</Link>
+            <Link to="/posts">Posts</Link>
           </li>
         </ul>
       </div>

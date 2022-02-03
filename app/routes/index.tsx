@@ -9,13 +9,11 @@ export default function IndexRoute() {
   return (
     <div className="container">
       <div className="content">
-        <h1>
-          Remix <span>Jokes!</span>
-        </h1>
+        <h1>Personal blog</h1>
         <nav>
           <ul>
             <li>
-              <Link to="jokes">Read Jokes</Link>
+              <Link to="posts">Read Posts</Link>
             </li>
           </ul>
         </nav>

@@ -12,16 +12,16 @@ async function seed() {
   });
 
   await Promise.all(
-    getJokes().map((joke) => {
-      const data = { jokesterId: kody.id, ...joke };
-      return db.joke.create({ data });
+    getPosts().map((post) => {
+      const data = { posterId: kody.id, ...post };
+      return db.post.create({ data });
     })
   );
 }
 
 seed();
 
-function getJokes() {
+function getPosts() {
   // shout-out to https://icanhazdadjoke.com/
 
   return [
