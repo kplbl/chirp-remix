@@ -1,19 +1,16 @@
-import { Link, LinksFunction } from "remix";
-import stylesUrl from "../styles/index.css";
-
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesUrl }];
-};
+import { Link } from "remix";
 
 export default function IndexRoute() {
   return (
     <div className="container">
       <div className="content">
-        <h1>Personal blog</h1>
+        <h1 className="text-red-400">Personal blog</h1>
         <nav>
           <ul>
             <li>
-              <Link to="posts">Read Posts</Link>
+              <Link to="posts" className="text-red">
+                Read Posts
+              </Link>
             </li>
           </ul>
         </nav>
