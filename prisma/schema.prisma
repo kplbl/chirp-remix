@@ -16,15 +16,15 @@ model User {
   updatedAt    DateTime @updatedAt
   username     String   @unique
   passwordHash String
-  jokes        Joke[]
+  posts        Post[]
 }
 
-model Joke {
-  id         String   @id @default(uuid())
-  jokesterId String
-  jokester   User     @relation(fields: [jokesterId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String
-  content    String
+model Post {
+  id        String   @id @default(uuid())
+  posterId  String
+  poster    User     @relation(fields: [posterId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  content   String
 }
