@@ -1,12 +1,7 @@
-import type { LinksFunction, ActionFunction } from "remix";
+import type { ActionFunction } from "remix";
 import { Link, useSearchParams, json, useActionData } from "remix";
-import stylesUrl from "../styles/login.css";
 import { db } from "~/utils/db.server";
 import { createUserSession, login, register } from "~/utils/session.server";
-
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesUrl }];
-};
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {

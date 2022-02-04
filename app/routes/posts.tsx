@@ -1,19 +1,8 @@
-import {
-  Outlet,
-  LinksFunction,
-  LoaderFunction,
-  useLoaderData,
-  Link,
-} from "remix";
-import stylesUrl from "../styles/jokes.css";
+import { Outlet, LoaderFunction, useLoaderData, Link } from "remix";
 import type { Post } from "@prisma/client";
 import { db } from "~/utils/db.server";
 import { getUser } from "~/utils/session.server";
 import { User } from "@prisma/client";
-
-export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesUrl }];
-};
 
 type LoaderData = {
   user: User | null;
