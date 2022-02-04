@@ -35,7 +35,7 @@ export const action: ActionFunction = async ({ request }) => {
   const loginType = form.get("loginType");
   const username = form.get("username");
   const password = form.get("password");
-  const redirectTo = form.get("redirectTo") || "/jokes";
+  const redirectTo = form.get("redirectTo") || "/posts";
   if (
     typeof loginType !== "string" ||
     typeof username !== "string" ||
