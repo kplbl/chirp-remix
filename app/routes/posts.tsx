@@ -58,7 +58,7 @@ export default function PostsRoute() {
             <ul>
               {data.postListItems.map((post) => (
                 <li key={post.id}>
-                  <Link to={post.id}>{post.name}</Link>
+                  <Link to={post.id}>{post.title}</Link>
                 </li>
               ))}
             </ul>

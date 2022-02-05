@@ -49,7 +49,7 @@ export default function PostRoute() {
     <div>
       <p>Here is a post:</p>
       <p>{data.post.content}</p>
-      <Link to=".">{data.post.name} Permalink</Link>
+      <Link to=".">{data.post.title} Permalink</Link>
       {data.isOwner ? (
         <Form method="post">
           <input type="hidden" name="_method" value="delete" />
