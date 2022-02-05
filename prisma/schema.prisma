@@ -11,20 +11,35 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  username     String   @unique
+  id           String    @id @default(uuid())
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  username     String    @unique
   passwordHash String
+  avatarURL    String?
   posts        Post[]
+  comments     Comment[]
 }
 
 model Post {
+  id        String    @id @default(uuid())
+  posterId  String
+  poster    User      @relation(fields: [posterId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  title     String
+  content   String
+  tags      String?
+  comments  Comment[]
+}
+
+model Comment {
   id        String   @id @default(uuid())
   posterId  String
   poster    User     @relation(fields: [posterId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String
   content   String
+  Post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?
 }
