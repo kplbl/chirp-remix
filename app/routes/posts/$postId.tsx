@@ -89,6 +89,6 @@ export function CatchBoundary() {
 export function ErrorBoundary() {
   const { postId } = useParams();
   return (
-    <div className="error-container">{`There was an error loading joke by the id ${postId}. Sorry.`}</div>
+    <div className="error-container">{`There was an error loading post by the id ${postId}. Sorry.`}</div>
   );
 }

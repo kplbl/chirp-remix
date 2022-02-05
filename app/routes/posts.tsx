@@ -6,14 +6,14 @@ import { User } from "@prisma/client";
 
 type LoaderData = {
   user: User | null;
-  postListItems: Array<{ id: string; name: string }>;
+  postListItems: Array<{ id: string; title: string }>;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
   const postListItems = await db.post.findMany({
     take: 5,
     orderBy: { createdAt: "desc" },
-    select: { id: true, name: true },
+    select: { id: true, title: true },
   });
   const user = await getUser(request);
 

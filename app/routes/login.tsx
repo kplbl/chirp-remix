@@ -63,7 +63,7 @@ export const action: ActionFunction = async ({ request }) => {
         return { fields, formError: "Not implemented" };
       }
       return createUserSession(user.id, redirectTo);
-      // if there is a user, create their session and redirect to /jokes
+      // if there is a user, create their session and redirect to /posts
     }
     case "register": {
       const userExists = await db.user.findFirst({ where: { username } });
@@ -97,10 +97,11 @@ export default function Login() {
   const actionData = useActionData<ActionData>();
 
   return (
-    <div className="container">
-      <div className="content" data-light="">
-        <h1>Login</h1>
+    <div className="md:w-1/2 mx-auto mt-10 bg-gray-100 text-gray-600 p-5 rounded-md shadow-lg">
+      <div className="" data-light="">
+        <h1 className="text-center mb-5 text-2xl">Login</h1>
         <form
+          className="flex flex-col justify-center gap-y-5"
           method="post"
           aria-describedby={
             actionData?.formError ? "form-error-message" : undefined
@@ -111,7 +112,7 @@ export default function Login() {
             name="redirectTo"
             value={searchParams.get("redirectTo") ?? undefined}
           />
-          <fieldset>
+          <fieldset className="flex justify-center gap-5">
             <legend className="sr-only">Login or Register?</legend>
             <label>
               <input
@@ -135,9 +136,13 @@ export default function Login() {
               Register
             </label>
           </fieldset>
-          <div>
-            <label htmlFor="username-input">Username</label>
+
+          <div className="flex justify-center gap-5 ">
+            <label className="p-1 w-24 " htmlFor="username-input">
+              Username
+            </label>
             <input
+              className="border border-gray-300 p-1"
               type="text"
               id="username-input"
               name="username"
@@ -157,9 +162,12 @@ export default function Login() {
               </p>
             ) : null}
           </div>
-          <div>
-            <label htmlFor="password-input">Password</label>
+          <div className="flex justify-center gap-5">
+            <label className="p-1 w-24" htmlFor="password-input">
+              Password
+            </label>
             <input
+              className="border border-gray-300 p-1"
               id="password-input"
               name="password"
               defaultValue={actionData?.fields?.password}
@@ -188,20 +196,31 @@ export default function Login() {
               </p>
             ) : null}
           </div>
-          <button type="submit" className="button">
+          <button
+            type="submit"
+            className="py-2 px-4 border mx-auto mb-5 rounded-sm shadow-sm bg-slate-300 hover:shadow-lg"
+          >
             Submit
           </button>
         </form>
       </div>
       <div className="links">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/posts">Posts</Link>
-          </li>
-        </ul>
+        <Link to="/">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            />
+          </svg>
+        </Link>
       </div>
     </div>
   );
