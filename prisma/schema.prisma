@@ -11,14 +11,17 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  username     String    @unique
-  passwordHash String
-  avatarURL    String?
-  posts        Post[]
-  comments     Comment[]
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  username      String    @unique
+  passwordHash  String
+  avatarURL     String?
+  backgroundURL String?
+  posts         Post[]
+  comments      Comment[]
+  followers     User[]    @relation("UserToUser")
+  following     User[]    @relation("UserToUser")
 }
 
 model Post {
@@ -30,6 +33,8 @@ model Post {
   title     String
   content   String
   tags      String?
+  likes     Int       @default(0)
+  rechirps  Int       @default(0)
   comments  Comment[]
 }
 
@@ -40,6 +45,8 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   content   String
+  likes     Int      @default(0)
+  rechirps  Int      @default(0)
   Post      Post?    @relation(fields: [postId], references: [id])
   postId    String?
 }

@@ -6,4 +6,5 @@ node_modules
 .env
 /prisma/dev.db
 /prisma/migrations
+/prisma/dev.db-journal
 /app/styles/app.css
