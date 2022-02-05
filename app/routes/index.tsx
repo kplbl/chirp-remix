@@ -5,14 +5,14 @@ import { User } from "@prisma/client";
 
 type LoaderData = {
   user: User | null;
-  postListItems: Array<{ id: string; title: string }>;
+  postListItems: Array<{ id: string; title: string; content: string }>;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
   const postListItems = await db.post.findMany({
     take: 5,
     orderBy: { createdAt: "desc" },
-    select: { id: true, title: true },
+    select: { id: true, title: true, content: true },
   });
   const user = await getUser(request);
 
@@ -49,13 +49,12 @@ export default function IndexRoute() {
         </div>
       </nav>
       <div className="mt-5 border border-black rounded-sm shadow-lg px-3 py-2">
-        <ul>
-          {data.postListItems.map((post) => (
-            <li key={post.id}>
-              <Link to={`/posts/${post.id}`}>{post.title}</Link>
-            </li>
-          ))}
-        </ul>
+        {data.postListItems.map((post) => (
+          <div className="my-5" key={post.id}>
+            <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            <div>{post.content}</div>
+          </div>
+        ))}
       </div>
     </div>
   );

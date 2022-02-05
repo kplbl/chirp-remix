@@ -15,6 +15,7 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   username      String    @unique
+  userFullname  String    @unique
   passwordHash  String
   avatarURL     String?
   backgroundURL String?
