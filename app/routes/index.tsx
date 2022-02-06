@@ -32,7 +32,7 @@ export default function IndexRoute() {
   const data = useLoaderData<LoaderData>();
   return (
     <>
-      <aside className="ml-16 h-screen top-0 sticky">
+      {/* <aside className="ml-16 h-screen top-0 sticky">
         <nav className=" px-5 py-2 flex flex-col justify-between h-full">
           <div className="">
             <Link to="posts" className="flex gap-3">
@@ -50,35 +50,35 @@ export default function IndexRoute() {
                   d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                 />
               </svg>
-              <div className="text-xl flex items-center">Home</div>
+              <div className="text-xl hidden md:flex items-center">Home</div>
             </Link>
           </div>
           <div>
             <div>
               {data.user ? (
-                <div className="user-info">
-                  <span>{`Hi ${data.user.username}`}</span>
-                  <form action="/logout" method="post">
-                    <button type="submit" className="button">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-10 w-10"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                        />
-                      </svg>
-                    </button>
-                  </form>
-                </div>
+                <form action="/logout" method="post" className="flex gap-2">
+                  <button type="submit" className="button">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-10 w-10"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                      />
+                    </svg>
+                  </button>
+                  <div className="text-xl hidden md:flex items-center">
+                    Logout
+                  </div>
+                </form>
               ) : (
-                <Link to="/login">
+                <Link to="/login" className="flex gap-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-10 w-10"
@@ -93,12 +93,15 @@ export default function IndexRoute() {
                       d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                     />
                   </svg>
+                  <div className="text-xl hidden md:flex items-center">
+                    Login
+                  </div>
                 </Link>
               )}
             </div>
           </div>
         </nav>
-      </aside>
+      </aside> */}
 
       <main className="max-w-2xl">
         {data.postListItems.map((post) => (
@@ -107,9 +110,7 @@ export default function IndexRoute() {
             key={post.id}
           >
             <Link to={`/posts/${post.id}`}>
-              {post.title}{" "}
-              <span className="font-bold">{post.poster.userFullname}</span> @
-              {post.poster.username}
+              {post.title} @{post.poster.username}
             </Link>
             <div>{post.content}</div>
             <div className="flex justify-evenly mt-5">

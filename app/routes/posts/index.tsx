@@ -25,7 +25,7 @@ export default function PostsIndexRoute() {
     <div>
       <p>here's a random post:</p>
       <p>{data.randomPost.content}</p>
-      <Link to={data.randomPost.id}>"{data.randomPost.name}" Permalink</Link>
+      <Link to={data.randomPost.id}>"{data.randomPost.title}" Permalink</Link>
     </div>
   );
 }
