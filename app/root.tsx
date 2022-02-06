@@ -14,13 +14,13 @@ function Document({
   title?: string;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full">
       <head>
         <meta charSet="utf-8" />
         <title>{title}</title>
         <Links />
       </head>
-      <body>
+      <body className="flex">
         {children}
         <Scripts />
         {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
