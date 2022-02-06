@@ -7,7 +7,12 @@ type LoginForm = {
   password: string;
 };
 
-export async function register({ username, password }: LoginForm) {
+type RegisterForm = {
+  username: string;
+  password: string;
+};
+
+export async function register({ username, password }: RegisterForm) {
   const passwordHash = await bcrypt.hash(password, 10);
   return db.user.create({
     data: { username, passwordHash },
@@ -31,7 +36,7 @@ if (!sessionSecret) {
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "RJ_session",
+    name: "Chirp_session",
     // normally you want this to be `secure: true`
     // but that doesn't work on localhost for Safari
     // https://web.dev/when-to-use-local-https/
