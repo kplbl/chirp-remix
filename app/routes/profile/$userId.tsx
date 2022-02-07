@@ -1,8 +1,8 @@
-import { Link, LoaderFunction, useLoaderData, Outlet } from "remix";
+import type { LoaderFunction } from "remix";
+import { useLoaderData, Link, useCatch } from "remix";
+import type { User } from "@prisma/client";
 import { db } from "~/utils/db.server";
 import { getUser } from "~/utils/session.server";
-import { User, Like } from "@prisma/client";
-import Post from "../components/Post";
 
 type LoaderData = {
   user: User | null;
@@ -12,13 +12,16 @@ type LoaderData = {
     content: string;
     poster: User;
     createdAt: Date;
-    likes: Like[];
   }>;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const user = await getUser(request);
+  if (!user) {
+    throw new Response("Unauthorized", { status: 401 });
+  }
   const postListItems = await db.post.findMany({
-    take: 15,
+    where: { id: user?.id },
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
@@ -26,11 +29,8 @@ export const loader: LoaderFunction = async ({ request }) => {
       content: true,
       poster: true,
       createdAt: true,
-      likes: true,
     },
   });
-
-  const user = await getUser(request);
 
   const data: LoaderData = {
     postListItems,
@@ -39,13 +39,19 @@ export const loader: LoaderFunction = async ({ request }) => {
   return data;
 };
 
-export default function IndexRoute() {
-  const data = useLoaderData<LoaderData>();
+export default function ProfileRoute() {
+  const data = useLoaderData();
   return (
-    <main className="max-w-2xl">
-      {data.postListItems.map((post) => (
-        <Post post={post} key={post.id} />
-      ))}
+    <main>
+      <h1>{data.user.username}</h1>
     </main>
+  );
+}
+
+export function ErrorBoundary() {
+  return (
+    <div className="error-container">
+      Something unexpected went wrong. Sorry about that.
+    </div>
   );
 }
