@@ -34,7 +34,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const username = form.get("username");
   const password = form.get("password");
-  const redirectTo = form.get("redirectTo") || "/posts";
+  const redirectTo = form.get("redirectTo") || "/";
   if (
     typeof username !== "string" ||
     typeof password !== "string" ||
@@ -141,13 +141,18 @@ export default function Login() {
             </p>
           ) : null}
         </div>
-        <div>
+        <div className="flex justify-evenly">
           <button
             type="submit"
-            className="py-2 px-4 border mx-auto rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
+            className="py-2 px-4 border  rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
           >
             Submit
           </button>
+          <Link to={"/register"}>
+            <button className="py-2 px-4 border  rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200">
+              Register?
+            </button>
+          </Link>
         </div>
       </form>
     </main>

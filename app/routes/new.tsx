@@ -62,7 +62,8 @@ export const action: ActionFunction = async ({ request }) => {
   const post = await db.post.create({
     data: { ...fields, posterId: userId },
   });
-  return redirect(`/posts/${post.id}`);
+  //return redirect(`/posts/${post.id}`);
+  return redirect("/");
 };
 
 export default function NewPostRoute() {

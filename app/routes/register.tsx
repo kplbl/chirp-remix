@@ -181,10 +181,10 @@ export default function Register() {
           ></div>
           <input type="hidden" name="avatarSVG" defaultValue={avatar} />
         </div>
-        <div className="mt-5">
+        <div className="mt-5 flex">
           <button
             type="submit"
-            className="py-2 px-4 border mx-auto rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
+            className="py-2 px-4 border  rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
           >
             Submit
           </button>
