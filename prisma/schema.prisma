@@ -22,6 +22,8 @@ model User {
   comments      Comment[]
   followers     User[]    @relation("UserToUser")
   following     User[]    @relation("UserToUser")
+  likeId        String?
+  Like          Like[]
 }
 
 model Post {
@@ -33,8 +35,7 @@ model Post {
   title     String
   content   String
   tags      String?
-  likes     Int       @default(0)
-  rechirps  Int       @default(0)
+  likes     Like[]
   comments  Comment[]
 }
 
@@ -45,8 +46,17 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   content   String
-  likes     Int      @default(0)
-  rechirps  Int      @default(0)
+  likes     Like[]
   Post      Post?    @relation(fields: [postId], references: [id])
   postId    String?
+}
+
+model Like {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?
+  userId    String
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?
 }
