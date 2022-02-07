@@ -2,6 +2,9 @@ import type { ActionFunction } from "remix";
 import { Link, useSearchParams, json, useActionData } from "remix";
 import { db } from "~/utils/db.server";
 import { createUserSession, login, register } from "~/utils/session.server";
+import { createAvatar } from "@dicebear/avatars";
+import * as style from "@dicebear/miniavs";
+import { useState, useEffect } from "react";
 
 function validateUsername(username: unknown) {
   if (typeof username !== "string" || username.length < 3) {
@@ -24,6 +27,7 @@ type ActionData = {
   fields?: {
     username: string;
     password: string;
+    avatarSVG: string;
   };
 };
 
@@ -36,6 +40,7 @@ export const action: ActionFunction = async ({ request }) => {
 
   const password = form.get("password");
   const redirectTo = form.get("redirectTo") || "/";
+  const avatarSVG = form.get("avatarSVG") as string;
   if (
     typeof username !== "string" ||
     typeof password !== "string" ||
@@ -46,7 +51,7 @@ export const action: ActionFunction = async ({ request }) => {
     });
   }
 
-  const fields = { username, password };
+  const fields = { username, password, avatarSVG };
   const fieldErrors = {
     username: validateUsername(username),
     password: validatePassword(password),
@@ -62,7 +67,7 @@ export const action: ActionFunction = async ({ request }) => {
     });
   }
 
-  const user = await register({ username, password });
+  const user = await register({ username, password, avatarSVG });
   if (!user) {
     return badRequest({
       fields,
@@ -72,9 +77,24 @@ export const action: ActionFunction = async ({ request }) => {
   return createUserSession(user.id, redirectTo);
 };
 
-export default function Login() {
+export default function Register() {
   const [searchParams] = useSearchParams();
   const actionData = useActionData<ActionData>();
+
+  const [avatar, setAvatar] = useState("");
+
+  const makeAvatar = () => {
+    const random = String(Math.random().toString());
+    const svg = createAvatar(style, {
+      seed: random,
+      // ... and other options
+    });
+    setAvatar(svg);
+  };
+
+  useEffect(() => {
+    makeAvatar();
+  }, []);
 
   return (
     <main className="pt-5">
@@ -94,7 +114,7 @@ export default function Login() {
           />
 
           <div className="flex justify-center gap-5 ">
-            <label className="p-1 w-24 " htmlFor="username-input">
+            <label className="w-24 flex items-center" htmlFor="username-input">
               Username
             </label>
             <input
@@ -119,7 +139,7 @@ export default function Login() {
             ) : null}
           </div>
           <div className="flex justify-center gap-5">
-            <label className="p-1 w-24" htmlFor="password-input">
+            <label className="flex items-center w-24" htmlFor="password-input">
               Password
             </label>
             <input
@@ -135,6 +155,7 @@ export default function Login() {
                 actionData?.fieldErrors?.password ? "password-error" : undefined
               }
             />
+
             {actionData?.fieldErrors?.password ? (
               <p
                 className="form-validation-error"
@@ -152,12 +173,23 @@ export default function Login() {
               </p>
             ) : null}
           </div>
-          <button
-            type="submit"
-            className="py-2 px-4 border mx-auto rounded-sm shadow-sm bg-blue-300 hover:shadow-lg"
-          >
-            Submit
-          </button>
+          <div className="flex align-middle gap-28">
+            <div className="flex items-center text-lg">Avatar:</div>
+            <div
+              className="w-16 h-16 bg-slate-200 rounded-full overflow-clip"
+              dangerouslySetInnerHTML={{ __html: avatar }}
+              onClick={() => makeAvatar()}
+            ></div>
+            <input type="hidden" name="avatarSVG" defaultValue={avatar} />
+          </div>
+          <div className="mt-5">
+            <button
+              type="submit"
+              className="py-2 px-4 border mx-auto rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </main>
