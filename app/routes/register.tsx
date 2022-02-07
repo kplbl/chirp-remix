@@ -98,100 +98,98 @@ export default function Register() {
 
   return (
     <main className="pt-5">
-      <div className="" data-light="">
-        <h1 className="text-center mb-5 text-2xl">Register</h1>
-        <form
-          className="flex flex-col justify-center gap-y-5"
-          method="post"
-          aria-describedby={
-            actionData?.formError ? "form-error-message" : undefined
-          }
-        >
+      <h1 className="text-center mb-5 text-2xl">Register</h1>
+      <form
+        className="flex flex-col justify-center gap-y-5"
+        method="post"
+        aria-describedby={
+          actionData?.formError ? "form-error-message" : undefined
+        }
+      >
+        <input
+          type="hidden"
+          name="redirectTo"
+          value={searchParams.get("redirectTo") ?? undefined}
+        />
+
+        <div className="flex justify-center gap-5 ">
+          <label className="w-24 flex items-center" htmlFor="username-input">
+            Username
+          </label>
           <input
-            type="hidden"
-            name="redirectTo"
-            value={searchParams.get("redirectTo") ?? undefined}
+            className="border border-gray-300 p-1"
+            type="text"
+            id="username-input"
+            name="username"
+            defaultValue={actionData?.fields?.username}
+            aria-invalid={Boolean(actionData?.fieldErrors?.username)}
+            aria-describedby={
+              actionData?.fieldErrors?.username ? "username-error" : undefined
+            }
+          />
+          {actionData?.fieldErrors?.username ? (
+            <p
+              className="form-validation-error"
+              role="alert"
+              id="username-error"
+            >
+              {actionData?.fieldErrors.username}
+            </p>
+          ) : null}
+        </div>
+        <div className="flex justify-center gap-5">
+          <label className="flex items-center w-24" htmlFor="password-input">
+            Password
+          </label>
+          <input
+            className="border border-gray-300 p-1"
+            id="password-input"
+            name="password"
+            defaultValue={actionData?.fields?.password}
+            type="password"
+            aria-invalid={
+              Boolean(actionData?.fieldErrors?.password) || undefined
+            }
+            aria-describedby={
+              actionData?.fieldErrors?.password ? "password-error" : undefined
+            }
           />
 
-          <div className="flex justify-center gap-5 ">
-            <label className="w-24 flex items-center" htmlFor="username-input">
-              Username
-            </label>
-            <input
-              className="border border-gray-300 p-1"
-              type="text"
-              id="username-input"
-              name="username"
-              defaultValue={actionData?.fields?.username}
-              aria-invalid={Boolean(actionData?.fieldErrors?.username)}
-              aria-describedby={
-                actionData?.fieldErrors?.username ? "username-error" : undefined
-              }
-            />
-            {actionData?.fieldErrors?.username ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="username-error"
-              >
-                {actionData?.fieldErrors.username}
-              </p>
-            ) : null}
-          </div>
-          <div className="flex justify-center gap-5">
-            <label className="flex items-center w-24" htmlFor="password-input">
-              Password
-            </label>
-            <input
-              className="border border-gray-300 p-1"
-              id="password-input"
-              name="password"
-              defaultValue={actionData?.fields?.password}
-              type="password"
-              aria-invalid={
-                Boolean(actionData?.fieldErrors?.password) || undefined
-              }
-              aria-describedby={
-                actionData?.fieldErrors?.password ? "password-error" : undefined
-              }
-            />
-
-            {actionData?.fieldErrors?.password ? (
-              <p
-                className="form-validation-error"
-                role="alert"
-                id="password-error"
-              >
-                {actionData?.fieldErrors.password}
-              </p>
-            ) : null}
-          </div>
-          <div id="form-error-message">
-            {actionData?.formError ? (
-              <p className="form-validation-error" role="alert">
-                {actionData?.formError}
-              </p>
-            ) : null}
-          </div>
-          <div className="flex align-middle gap-28">
-            <div className="flex items-center text-lg">Avatar:</div>
-            <div
-              className="w-16 h-16 bg-slate-200 rounded-full overflow-clip"
-              dangerouslySetInnerHTML={{ __html: avatar }}
-              onClick={() => makeAvatar()}
-            ></div>
-            <input type="hidden" name="avatarSVG" defaultValue={avatar} />
-          </div>
-          <div className="mt-5">
-            <button
-              type="submit"
-              className="py-2 px-4 border mx-auto rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
+          {actionData?.fieldErrors?.password ? (
+            <p
+              className="form-validation-error"
+              role="alert"
+              id="password-error"
             >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
+              {actionData?.fieldErrors.password}
+            </p>
+          ) : null}
+        </div>
+        <div id="form-error-message">
+          {actionData?.formError ? (
+            <p className="form-validation-error" role="alert">
+              {actionData?.formError}
+            </p>
+          ) : null}
+        </div>
+        <div className="flex align-middle gap-28">
+          <div className="flex items-center text-lg">Avatar:</div>
+          <div
+            className="w-16 h-16 bg-slate-200 rounded-full overflow-clip"
+            dangerouslySetInnerHTML={{ __html: avatar }}
+            onClick={() => makeAvatar()}
+          ></div>
+          <input type="hidden" name="avatarSVG" defaultValue={avatar} />
+        </div>
+        <div className="mt-5">
+          <button
+            type="submit"
+            className="py-2 px-4 border mx-auto rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </main>
   );
 }
