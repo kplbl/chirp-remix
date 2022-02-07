@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "remix-app-template",
+  "name": "chirp-remix",
   "description": "",
   "license": "",
   "scripts": {
@@ -15,6 +15,8 @@
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
   "dependencies": {
+    "@dicebear/avatars": "^4.10.2",
+    "@dicebear/miniavs": "^4.10.2",
     "@prisma/client": "^3.9.1",
     "@remix-run/react": "^1.1.3",
     "@remix-run/serve": "^1.1.3",
