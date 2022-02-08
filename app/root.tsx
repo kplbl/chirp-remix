@@ -6,7 +6,9 @@ import {
   useCatch,
   Scripts,
   LoaderFunction,
+  ActionFunction,
   useLoaderData,
+  redirect,
 } from "remix";
 import { getUser } from "./utils/session.server";
 import { User } from "@prisma/client";
@@ -25,6 +27,10 @@ export const links: LinksFunction = () => {
 
 type LoaderData = {
   user: User | null;
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  return redirect("/");
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
