@@ -20,23 +20,21 @@ model User {
   backgroundURL String?
   posts         Post[]
   comments      Comment[]
-  followers     User[]    @relation("UserToUser")
-  following     User[]    @relation("UserToUser")
-  likeId        String?
-  Like          Like[]
+  likes         Post[]    @relation("likes", references: [id])
+
+
 }
 
 model Post {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
   posterId  String
-  poster    User      @relation(fields: [posterId], references: [id], onDelete: Cascade)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  poster    User     @relation(fields: [posterId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   title     String
   content   String
-  tags      String?
-  likes     Like[]
-  comments  Comment[]
+  likedBy   User[]   @relation("likes", references: [id])
+
 }
 
 model Comment {
@@ -46,17 +44,5 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   content   String
-  likes     Like[]
-  Post      Post?    @relation(fields: [postId], references: [id])
-  postId    String?
-}
 
-model Like {
-  id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
-  post      Post?    @relation(fields: [postId], references: [id])
-  postId    String?
-  userId    String
-  Comment   Comment? @relation(fields: [commentId], references: [id])
-  commentId String?
 }
