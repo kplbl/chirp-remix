@@ -13,7 +13,7 @@ async function seed() {
 
   await Promise.all(
     getPosts().map((post) => {
-      const data = { posterId: kody.id, tags: "", ...post };
+      const data = { posterId: kody.id, ...post };
       return db.post.create({ data });
     })
   );

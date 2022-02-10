@@ -26,14 +26,15 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   posterId  String
-  poster    User     @relation(fields: [posterId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  poster    User      @relation(fields: [posterId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   title     String
   content   String
-  likedBy   User[]   @relation("likes", references: [id])
+  likedBy   User[]    @relation("likes", references: [id])
+  comments  Comment[]
 
 }
 
@@ -45,4 +46,6 @@ model Comment {
   updatedAt DateTime @updatedAt
   content   String
 
+  Post   Post?   @relation(fields: [postId], references: [id])
+  postId String?
 }
