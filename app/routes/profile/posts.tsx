@@ -40,26 +40,34 @@ export const loader: LoaderFunction = async ({ request }) => {
   return data;
 };
 
-export default function ProfileRoute() {
+export default function ProfilePostsRoute() {
   const data = useLoaderData<LoaderData>();
 
-  if (!data.user) redirect("/");
-
   return (
-    <main className="flex flex-col p-5 gap-5">
-      <div className="flex gap-5">
-        <div
-          className=" h-16 w-16 bg-slate-200 rounded-full overflow-clip"
-          dangerouslySetInnerHTML={{
-            __html: data.user?.avatarSVG || "",
-          }}
-        ></div>
-        <div className="text-xl my-auto">@{data.user?.username}</div>
-      </div>
-      <div>
-        <Link to="/profile/posts">{data.postListItems?.length} posts</Link>
-      </div>
-      <div>Profile created {timeago.format(data.user?.createdAt as Date)}</div>
+    <main className="max-w-2xl p-5">
+      {data.postListItems ? (
+        <div className="flex flex-col gap-4">
+          {data.postListItems.map((post) => (
+            <div
+              key={post.id}
+              className="flex gap-5 border border-gray-200 rounded p-3"
+            >
+              <div className="flex-1">
+                <div className="border-b border-gray-200 font-bold">
+                  {post.title}
+                </div>
+                <div>{post.content}</div>
+                <div>created {timeago.format(post.createdAt)}</div>
+              </div>
+              <div className="flex flex-col justify-center">
+                <TrashIcon className="w-10 h-10 hover:text-red-600 mx-4" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>User has no posts</div>
+      )}
     </main>
   );
 }

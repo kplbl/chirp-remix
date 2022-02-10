@@ -19,6 +19,8 @@ import {
   PencilIcon,
   LogoutIcon,
   LoginIcon,
+  UserAddIcon,
+  UserIcon,
 } from "@heroicons/react/outline";
 
 export const links: LinksFunction = () => {
@@ -60,15 +62,33 @@ function Document({
         <Links />
       </head>
       <body className="flex">
-        <aside className="ml-16 h-screen top-0 sticky">
-          <nav className=" px-5 py-2 flex flex-col justify-between h-full">
-            <div className="">
+        <aside className="md:ml-16 h-screen top-0 sticky">
+          <nav className=" px-2 py-2 flex flex-col justify-between h-full">
+            <div className="flex flex-col gap-2">
               <Link to="/" className="flex gap-3">
                 <div className="p-1">
                   <HomeIcon className="h-9 w-9" />
                 </div>
 
                 <div className="text-xl hidden md:flex items-center">Home</div>
+              </Link>
+              <Link to="/profile" className="flex gap-3">
+                {data.user?.avatarSVG ? (
+                  <div
+                    className=" h-10 w-10 bg-slate-200 rounded-full overflow-clip"
+                    dangerouslySetInnerHTML={{
+                      __html: data.user.avatarSVG || "",
+                    }}
+                  ></div>
+                ) : (
+                  <div className="bg-blue-400 rounded-full p-1">
+                    <UserIcon className="h-9 w-9 text-blue-100" />
+                  </div>
+                )}
+
+                <div className="text-xl hidden md:flex items-center">
+                  Profile
+                </div>
               </Link>
               <Link to="/new" className="flex gap-3">
                 <div className="bg-blue-400 rounded-full p-1">
