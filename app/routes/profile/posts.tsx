@@ -44,23 +44,36 @@ export default function ProfilePostsRoute() {
   const data = useLoaderData<LoaderData>();
 
   return (
-    <main className="max-w-2xl p-5">
+    <main className="">
       {data.postListItems ? (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col">
           {data.postListItems.map((post) => (
             <div
               key={post.id}
-              className="flex gap-5 border border-gray-200 rounded p-3"
+              className="flex p-5 pl-1 md:p-5 border border-gray-200 last-of-type:border-b border-b-0   gap-5"
             >
               <div className="flex-1">
                 <div className="border-b border-gray-200 font-bold">
                   {post.title}
                 </div>
                 <div>{post.content}</div>
-                <div>created {timeago.format(post.createdAt)}</div>
+                <div className="mt-3 font-light">
+                  created {timeago.format(post.createdAt)}
+                </div>
               </div>
               <div className="flex flex-col justify-center">
-                <TrashIcon className="w-10 h-10 hover:text-red-600 mx-4" />
+                <form action="/posts/delete" method="post">
+                  <button type="submit">
+                    <input
+                      type="text"
+                      name="id"
+                      value={post.id}
+                      hidden
+                      readOnly
+                    />
+                    <TrashIcon className="w-10 h-10 hover:text-red-600 mx-4" />
+                  </button>
+                </form>
               </div>
             </div>
           ))}
