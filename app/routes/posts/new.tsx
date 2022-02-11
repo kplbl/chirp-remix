@@ -18,20 +18,20 @@ function validatePostContent(content: string) {
   }
 }
 
-function validatePostName(name: string) {
-  if (name.length < 2) {
-    return `That posts's name is too short`;
+function validatePostTitle(title: string) {
+  if (title.length < 2) {
+    return `That posts's title is too short`;
   }
 }
 
 type ActionData = {
   formError?: string;
   fieldErrors?: {
-    name: string | undefined;
+    title: string | undefined;
     content: string | undefined;
   };
   fields?: {
-    name: string;
+    title: string;
     content: string;
   };
 };
@@ -41,20 +41,19 @@ const badRequest = (data: ActionData) => json(data, { status: 400 });
 export const action: ActionFunction = async ({ request }) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const name = form.get("name");
+  const title = form.get("title");
   const content = form.get("content");
-  // we do this type check to be extra sure and to make TypeScript happy
-  // we'll explore validation next!
-  if (typeof name !== "string" || typeof content !== "string") {
+
+  if (typeof title !== "string" || typeof content !== "string") {
     return badRequest({ formError: `Form not submitted correctly.` });
   }
 
   const fieldErrors = {
-    name: validatePostName(name),
+    title: validatePostTitle(title),
     content: validatePostContent(content),
   };
 
-  const fields = { name, content };
+  const fields = { title, content };
 
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({ fieldErrors, fields });
@@ -63,39 +62,46 @@ export const action: ActionFunction = async ({ request }) => {
   const post = await db.post.create({
     data: { ...fields, posterId: userId },
   });
-  return redirect(`/posts/${post.id}`);
+  //return redirect(`/posts/${post.id}`);
+  return redirect("/");
 };
 
 export default function NewPostRoute() {
   const actionData = useActionData<ActionData>();
 
   return (
-    <div>
-      <p>add your own post</p>
-      <Form method="post">
-        <div>
-          <label htmlFor="name">
-            Name:{" "}
+    <main className="pt-5">
+      <h1 className="text-center mb-5 text-2xl">Add Post</h1>
+      <Form method="post" className="flex flex-col justify-center gap-y-5">
+        <div className="flex justify-center gap-5 ">
+          <label htmlFor="title" className="flex justify-center gap-5 ">
+            <div className="flex items-center w-24">Title:</div>
+
             <input
+              className="border border-gray-300 p-1 px-2"
               type="text"
-              name="name"
-              defaultValue={actionData?.fields?.name}
-              aria-invalid={Boolean(actionData?.fieldErrors?.name) || undefined}
+              name="title"
+              defaultValue={actionData?.fields?.title}
+              aria-invalid={
+                Boolean(actionData?.fieldErrors?.title) || undefined
+              }
               aria-describedby={
-                actionData?.fieldErrors?.name ? "name-error" : undefined
+                actionData?.fieldErrors?.title ? "title-error" : undefined
               }
             />
           </label>
-          {actionData?.fieldErrors?.name ? (
-            <p className="form-validation-error" role="alert" id="name-error">
-              {actionData.fieldErrors.name}
+          {actionData?.fieldErrors?.title ? (
+            <p className="form-validation-error" role="alert" id="title-error">
+              {actionData.fieldErrors.title}
             </p>
           ) : null}
         </div>
-        <div>
-          <label htmlFor="content">
-            Content:{" "}
+        <div className="flex justify-center gap-5">
+          <label htmlFor="content" className="flex justify-center gap-5">
+            <div className="flex items-center w-24">Content:</div>
+
             <textarea
+              className="border border-gray-300 p-1"
               defaultValue={actionData?.fields?.content}
               name="content"
               aria-invalid={
@@ -107,22 +113,21 @@ export default function NewPostRoute() {
             />
           </label>
           {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              role="alert"
-              id="content-error"
-            >
+            <p className="" role="alert" id="content-error">
               {actionData.fieldErrors.content}
             </p>
           ) : null}
         </div>
         <div>
-          <button type="submit" className="button">
+          <button
+            type="submit"
+            className="py-2 px-4 border mx-auto rounded shadow-sm  border-blue-200 hover:shadow hover:bg-blue-200"
+          >
             Submit
           </button>
         </div>
       </Form>
-    </div>
+    </main>
   );
 }
 
