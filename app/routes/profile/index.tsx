@@ -1,4 +1,4 @@
-import { LoaderFunction, redirect } from "remix";
+import { LoaderFunction, Outlet, redirect } from "remix";
 import { useLoaderData, Link, useCatch } from "remix";
 import type { User } from "@prisma/client";
 import { db } from "~/utils/db.server";
@@ -43,25 +43,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function ProfileRoute() {
   const data = useLoaderData<LoaderData>();
 
-  if (!data.user) redirect("/");
-
-  return (
-    <main className="flex flex-col p-5 gap-5">
-      <div className="flex gap-5">
-        <div
-          className=" h-16 w-16 bg-slate-200 rounded-full overflow-clip"
-          dangerouslySetInnerHTML={{
-            __html: data.user?.avatarSVG || "",
-          }}
-        ></div>
-        <div className="text-xl my-auto">@{data.user?.username}</div>
-      </div>
-      <div>
-        <Link to="/profile/posts">{data.postListItems?.length} posts</Link>
-      </div>
-      <div>Profile created {timeago.format(data.user?.createdAt as Date)}</div>
-    </main>
-  );
+  return <></>;
 }
 
 export function ErrorBoundary() {
