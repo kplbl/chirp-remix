@@ -19,7 +19,7 @@ import {
   PencilIcon,
   LogoutIcon,
   LoginIcon,
-  UserAddIcon,
+  ChatIcon,
   UserIcon,
 } from "@heroicons/react/outline";
 
@@ -73,21 +73,32 @@ function Document({
                 <div className="text-xl hidden md:flex items-center">Home</div>
               </Link>
               <Link to="/profile" className="flex gap-3">
-                {data.user?.avatarSVG ? (
-                  <div
-                    className=" h-10 w-10 bg-slate-200 rounded-full overflow-clip"
-                    dangerouslySetInnerHTML={{
-                      __html: data.user.avatarSVG || "",
-                    }}
-                  ></div>
-                ) : (
-                  <div className="bg-blue-400 rounded-full p-1">
-                    <UserIcon className="h-9 w-9 text-blue-100" />
-                  </div>
-                )}
+                <div className="p-1">
+                  {data.user?.avatarSVG ? (
+                    <div
+                      className=" h-9 w-9 bg-slate-200 rounded-full overflow-clip"
+                      dangerouslySetInnerHTML={{
+                        __html: data.user.avatarSVG || "",
+                      }}
+                    ></div>
+                  ) : (
+                    <div className="bg-blue-400 rounded-full">
+                      <UserIcon className="h-9 w-9 text-blue-100" />
+                    </div>
+                  )}
+                </div>
 
                 <div className="text-xl hidden md:flex items-center">
                   Profile
+                </div>
+              </Link>
+              <Link to="/comments" className="flex gap-3">
+                <div className="p-1">
+                  <ChatIcon className="h-9 w-9" />
+                </div>
+
+                <div className="text-xl hidden md:flex items-center">
+                  Comments
                 </div>
               </Link>
               <Link to="/posts/new" className="flex gap-3">
