@@ -27,8 +27,8 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function PostsRoute() {
   const data = useLoaderData<LoaderData>();
   return (
-    <div className="">
-      
-    </div>
+    <>
+      <Outlet />
+    </>
   );
 }
