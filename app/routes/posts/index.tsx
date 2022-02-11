@@ -90,7 +90,7 @@ export default function IndexRoute() {
                 </span>
               </Link>
               <div>{post.content}</div>
-              <div className="flex justify-between mt-5 px-8">
+              <div className="flex justify-between mt-5 px-8 py-2 border-b border-b-gray-200 border-t border-t-gray-200">
                 <button type="button" className="flex gap-2">
                   <ChatIcon
                     className="h-6 w-6"
