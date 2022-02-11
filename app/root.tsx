@@ -90,7 +90,7 @@ function Document({
                   Profile
                 </div>
               </Link>
-              <Link to="/new" className="flex gap-3">
+              <Link to="/posts/new" className="flex gap-3">
                 <div className="bg-blue-400 rounded-full p-1">
                   <PencilIcon className="h-9 w-9 text-blue-100" />
                 </div>
