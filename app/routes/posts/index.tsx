@@ -13,6 +13,7 @@ import { ChatIcon, HeartIcon, ShareIcon } from "@heroicons/react/outline";
 import * as timeago from "timeago.js";
 import { useState } from "react";
 import Post from "../../components/Post";
+import Chirp from "../../components/Chirp";
 
 type LoaderData = {
   user: User | null;
@@ -70,6 +71,7 @@ export default function IndexRoute() {
   const data = useLoaderData<LoaderData>();
   return (
     <main className="max-w-2xl">
+      <Chirp />
       {data.postListItems.map((post) => (
         <Post key={post.id} post={post} />
       ))}
