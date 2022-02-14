@@ -21,6 +21,7 @@ import {
   LoginIcon,
   ChatIcon,
   UserIcon,
+  DocumentTextIcon,
 } from "@heroicons/react/outline";
 
 export const links: LinksFunction = () => {
@@ -52,7 +53,6 @@ function Document({
   title?: string;
 }) {
   const data = useLoaderData<LoaderData>();
-  //const data = { user: { name: "test" } };
 
   return (
     <html lang="en" className="h-full">
@@ -72,6 +72,23 @@ function Document({
 
                 <div className="text-xl hidden md:flex items-center">Home</div>
               </Link>
+
+              <Link to="/comments" className="flex gap-3">
+                <div className="p-1">
+                  <ChatIcon className="h-9 w-9" />
+                </div>
+
+                <div className="text-xl hidden md:flex items-center">
+                  Comments
+                </div>
+              </Link>
+              <Link to="/profile/posts" className="flex gap-3">
+                <div className="p-1">
+                  <DocumentTextIcon className="h-9 w-9" />
+                </div>
+
+                <div className="text-xl hidden md:flex items-center">Posts</div>
+              </Link>
               <Link to="/profile" className="flex gap-3">
                 <div className="p-1">
                   {data.user?.avatarSVG ? (
@@ -90,15 +107,6 @@ function Document({
 
                 <div className="text-xl hidden md:flex items-center">
                   Profile
-                </div>
-              </Link>
-              <Link to="/comments" className="flex gap-3">
-                <div className="p-1">
-                  <ChatIcon className="h-9 w-9" />
-                </div>
-
-                <div className="text-xl hidden md:flex items-center">
-                  Comments
                 </div>
               </Link>
               <Link to="/posts/new" className="flex gap-3">
