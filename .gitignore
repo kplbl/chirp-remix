@@ -8,3 +8,4 @@ node_modules
 /prisma/migrations
 /prisma/dev.db-journal
 /app/styles/app.css
+ecosystem.config.js
