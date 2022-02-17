@@ -13,25 +13,17 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 function validatePostContent(content: string) {
-  if (content.length < 10) {
-    return `That post is too short`;
-  }
-}
-
-function validatePostTitle(title: string) {
-  if (title.length < 2) {
-    return `That posts's title is too short`;
+  if (content.length < 1) {
+    return `At least write something.`;
   }
 }
 
 type ActionData = {
   formError?: string;
   fieldErrors?: {
-    title: string | undefined;
     content: string | undefined;
   };
   fields?: {
-    title: string;
     content: string;
   };
 };
@@ -41,19 +33,18 @@ const badRequest = (data: ActionData) => json(data, { status: 400 });
 export const action: ActionFunction = async ({ request }) => {
   const userId = await requireUserId(request);
   const form = await request.formData();
-  const title = form.get("title");
+
   const content = form.get("content");
 
-  if (typeof title !== "string" || typeof content !== "string") {
+  if (typeof content !== "string") {
     return badRequest({ formError: `Form not submitted correctly.` });
   }
 
   const fieldErrors = {
-    title: validatePostTitle(title),
     content: validatePostContent(content),
   };
 
-  const fields = { title, content };
+  const fields = { content };
 
   if (Object.values(fieldErrors).some(Boolean)) {
     return badRequest({ fieldErrors, fields });
@@ -73,29 +64,6 @@ export default function NewPostRoute() {
     <main className="pt-5">
       <h1 className="text-center mb-5 text-2xl">Add Post</h1>
       <Form method="post" className="flex flex-col justify-center gap-y-5">
-        <div className="flex justify-center gap-5 ">
-          <label htmlFor="title" className="flex justify-center gap-5 ">
-            <div className="flex items-center w-24">Title:</div>
-
-            <input
-              className="border border-gray-300 p-1 px-2"
-              type="text"
-              name="title"
-              defaultValue={actionData?.fields?.title}
-              aria-invalid={
-                Boolean(actionData?.fieldErrors?.title) || undefined
-              }
-              aria-describedby={
-                actionData?.fieldErrors?.title ? "title-error" : undefined
-              }
-            />
-          </label>
-          {actionData?.fieldErrors?.title ? (
-            <p className="form-validation-error" role="alert" id="title-error">
-              {actionData.fieldErrors.title}
-            </p>
-          ) : null}
-        </div>
         <div className="flex justify-center gap-5">
           <label htmlFor="content" className="flex justify-center gap-5">
             <div className="flex items-center w-24">Content:</div>
