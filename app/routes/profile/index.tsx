@@ -10,7 +10,6 @@ type LoaderData = {
   user: User | null;
   postListItems: Array<{
     id: string;
-    title: string;
     content: string;
     createdAt: Date;
   }> | null;
