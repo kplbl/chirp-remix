@@ -71,7 +71,8 @@ export default function IndexRoute() {
   const data = useLoaderData<LoaderData>();
   return (
     <main className="max-w-2xl">
-      <Chirp />
+      {data.user && <Chirp />}
+
       {data.postListItems.map((post) => (
         <Post key={post.id} post={post} user={data.user} />
       ))}
