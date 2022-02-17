@@ -82,7 +82,7 @@ function Document({
                   Comments
                 </div>
               </Link>
-              <Link to="/posts" className="flex gap-3">
+              <Link to="/posts/user" className="flex gap-3">
                 <div className="p-1">
                   <DocumentTextIcon className="h-9 w-9" />
                 </div>

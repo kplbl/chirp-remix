@@ -34,7 +34,7 @@ function Post({ post, user }: PostProps) {
   return (
     <article
       key={post.id}
-      className="p-5 pl-1 md:p-5 border border-gray-200 last-of-type:border-b border-b-0   gap-5"
+      className="p-5 pl-1 md:p-5 border border-gray-200 last-of-type:border-b border-b-0 gap-5"
     >
       <div className="flex gap-5">
         <div
