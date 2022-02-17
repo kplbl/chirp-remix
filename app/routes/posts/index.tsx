@@ -1,17 +1,7 @@
-import {
-  Link,
-  LoaderFunction,
-  useLoaderData,
-  ActionFunction,
-  useActionData,
-  Form,
-} from "remix";
+import { LoaderFunction, useLoaderData } from "remix";
 import { db } from "~/utils/db.server";
 import { getUser } from "~/utils/session.server";
-import { User, Comment } from "@prisma/client";
-import { ChatIcon, HeartIcon, ShareIcon } from "@heroicons/react/outline";
-import * as timeago from "timeago.js";
-import { useState } from "react";
+import { User } from "@prisma/client";
 import Post from "../../components/Post";
 import Chirp from "../../components/Chirp";
 
@@ -19,12 +9,10 @@ type LoaderData = {
   user: User | null;
   postListItems: Array<{
     id: string;
-
     content: string;
     poster: User;
     createdAt: Date;
     likedBy: User[];
-
     comments: Array<{
       id: string;
       content: string;
@@ -66,8 +54,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default function IndexRoute() {
-  const [commentsOpen, setCommentsOpen] = useState("");
-
   const data = useLoaderData<LoaderData>();
   return (
     <main className="max-w-2xl">
