@@ -31,7 +31,6 @@ model Post {
   poster    User      @relation(fields: [posterId], references: [id], onDelete: Cascade)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  title     String
   content   String
   likedBy   User[]    @relation("likes", references: [id])
   comments  Comment[]
