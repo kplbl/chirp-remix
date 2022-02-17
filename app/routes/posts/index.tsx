@@ -19,7 +19,7 @@ type LoaderData = {
   user: User | null;
   postListItems: Array<{
     id: string;
-    title: string;
+
     content: string;
     poster: User;
     createdAt: Date;
@@ -40,7 +40,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
-      title: true,
+
       content: true,
       poster: true,
       createdAt: true,
@@ -71,7 +71,7 @@ export default function IndexRoute() {
   const data = useLoaderData<LoaderData>();
   return (
     <main className="max-w-2xl">
-      {data.user && <Chirp />}
+      {data.user && <Chirp avatarSVG={data?.user?.avatarSVG} />}
 
       {data.postListItems.map((post) => (
         <Post key={post.id} post={post} user={data.user} />

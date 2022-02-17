@@ -1,22 +1,25 @@
 import { Form } from "remix";
 import { PhotographIcon } from "@heroicons/react/outline";
 
-function Chirp() {
+type ChirpProps = {
+  avatarSVG: string | null;
+};
+
+function Chirp({ avatarSVG }: ChirpProps) {
   return (
     <div className="flex p-5 gap-5 w-full">
       <div className="p-2">
-        <div className="bg-gray-200 w-10 h-10 rounded-full"></div>
+        <div
+          className="bg-gray-200 w-11 h-11 rounded-full overflow-clip"
+          dangerouslySetInnerHTML={{
+            __html: avatarSVG || "",
+          }}
+        ></div>
       </div>
       <div className="flex-grow ">
         <img src="" alt="" />
         <Form method="post" action="/posts/new">
           <div>
-            <input
-              type="text"
-              className="min-w-full p-2 border-b border-b-gray-300 mb-2"
-              placeholder={"What's happening?"}
-              name="title"
-            />
             <input
               type="text"
               className="min-w-full p-2 border-b border-b-gray-300 mb-2"

@@ -14,7 +14,6 @@ import Comment from "./Comment";
 type PostProps = {
   post: {
     id: string;
-    title: string;
     content: string;
     poster: User;
     createdAt: Date;
@@ -47,7 +46,6 @@ function Post({ post, user }: PostProps) {
 
         <div className="flex flex-1 flex-col">
           <Link to={`/posts/${post.id}`}>
-            {post.title && post.title}{" "}
             <span className="text-slate-600  text-sm">
               @{post.poster.username} {timeago.format(post.createdAt)}
             </span>

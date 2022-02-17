@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
-      title: true,
+
       content: true,
 
       createdAt: true,
