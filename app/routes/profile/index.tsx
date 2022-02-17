@@ -3,16 +3,13 @@ import { useLoaderData, Link, useCatch } from "remix";
 import type { User } from "@prisma/client";
 import { db } from "~/utils/db.server";
 import { getUser } from "~/utils/session.server";
-import { TrashIcon } from "@heroicons/react/outline";
+
 import * as timeago from "timeago.js";
 
 type LoaderData = {
   user: User | null;
-  postListItems: Array<{
-    id: string;
-    content: string;
-    createdAt: Date;
-  }> | null;
+  postCount: Number | null;
+  commentCount: Number | null;
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -20,21 +17,18 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (!user) {
     throw new Response("Not logged in", { status: 401 });
   }
-  const postListItems = await db.post.findMany({
+  const postCount = await db.post.count({
     where: { posterId: user?.id },
-    orderBy: { createdAt: "desc" },
-    select: {
-      id: true,
+  });
 
-      content: true,
-
-      createdAt: true,
-    },
+  const commentCount = await db.post.count({
+    where: { posterId: user?.id },
   });
 
   const data: LoaderData = {
     user,
-    postListItems,
+    postCount,
+    commentCount,
   };
   return data;
 };
@@ -55,8 +49,9 @@ export default function ProfileRoute() {
       </div>
 
       <div>Profile created {timeago.format(data.user?.createdAt as Date)}</div>
-      <div>
-        <Link to="/profile/posts">{data.postListItems?.length} posts</Link>
+      <div className="flex justify-between">
+        <Link to="/posts/user">{data.postCount} posts</Link>
+        <Link to="/comments">{data.commentCount} comments</Link>
       </div>
       <Outlet />
     </main>
