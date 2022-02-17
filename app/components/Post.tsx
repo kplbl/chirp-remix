@@ -69,7 +69,12 @@ function Post({ post, user }: PostProps) {
             <form action="/likes" method="post">
               <input type="text" name="id" value={post.id} readOnly hidden />
               <button type="submit" className="flex gap-2">
-                <HeartIcon className="h-6 w-6" />
+                <HeartIcon
+                  className={`h-6 w-6 ${
+                    post.likedBy.find((like) => like.id === user?.id) &&
+                    "text-red-500"
+                  }`}
+                />
                 {post.likedBy.length > 0 && post.likedBy.length}
               </button>
             </form>
