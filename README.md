@@ -1,6 +1,6 @@
 # OffBrand Chirp
 
-An attempt at a twitter-adjecent clone.
+An attempt at a twitter-adjecent clone using Remix.
 
 ## Development
 
