@@ -43,7 +43,25 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function ProfileRoute() {
   const data = useLoaderData<LoaderData>();
 
-  return <></>;
+  return (
+    <main className="flex flex-col p-5 gap-5 max-w-2xl">
+      <div className="flex gap-5">
+        <div
+          className=" h-16 w-16 bg-slate-200 rounded-full overflow-clip"
+          dangerouslySetInnerHTML={{
+            __html: data.user?.avatarSVG || "",
+          }}
+        ></div>
+        <div className="text-xl my-auto">@{data.user?.username}</div>
+      </div>
+
+      <div>Profile created {timeago.format(data.user?.createdAt as Date)}</div>
+      <div>
+        <Link to="/profile/posts">{data.postListItems?.length} posts</Link>
+      </div>
+      <Outlet />
+    </main>
+  );
 }
 
 export function ErrorBoundary() {
