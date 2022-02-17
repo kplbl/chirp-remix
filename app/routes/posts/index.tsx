@@ -73,7 +73,7 @@ export default function IndexRoute() {
     <main className="max-w-2xl">
       <Chirp />
       {data.postListItems.map((post) => (
-        <Post key={post.id} post={post} />
+        <Post key={post.id} post={post} user={data.user} />
       ))}
     </main>
   );

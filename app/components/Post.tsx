@@ -1,5 +1,10 @@
 import React from "react";
-import { ChatIcon, HeartIcon, ShareIcon } from "@heroicons/react/outline";
+import {
+  ChatIcon,
+  HeartIcon,
+  ShareIcon,
+  TrashIcon,
+} from "@heroicons/react/outline";
 import * as timeago from "timeago.js";
 import { useState } from "react";
 import { User } from "@prisma/client";
@@ -22,9 +27,10 @@ type PostProps = {
       createdAt: Date;
     }>;
   };
+  user: User | null;
 };
 
-function Post({ post }: PostProps) {
+function Post({ post, user }: PostProps) {
   const [commentsOpen, setCommentsOpen] = useState("");
   return (
     <article
@@ -69,6 +75,14 @@ function Post({ post }: PostProps) {
             </form>
 
             <ShareIcon className="h-6 w-6" />
+            {post.poster.id === user?.id && (
+              <form action="/posts/delete" method="post">
+                <input type="text" name="id" value={post.id} readOnly hidden />
+                <button type="submit" className="flex gap-2">
+                  <TrashIcon className="h-6 w-6 hover:text-red-500" />
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
